@@ -13,6 +13,7 @@ public class LOKI97Cipher {
     final static byte specialByte = '@';
 
     public static byte[] encrypt(byte[] inputBuffer, byte[] keyX, byte[] iv, String modeName, ProgressChecker progressChecker) {
+
         KeyGeneration keyGeneration = new KeyGeneration();
         int blocks;
         ArrayList<byte[]> blocksArray;
@@ -69,6 +70,7 @@ public class LOKI97Cipher {
     }
 
     public static byte[] decrypt(byte[] inputBuffer, byte[] keyX, byte[] iv, String modeName, ProgressChecker progressChecker) {
+
         KeyGeneration keyGeneration = new KeyGeneration();
         int blocks; // количество блоков
         int badCharCount = 0;

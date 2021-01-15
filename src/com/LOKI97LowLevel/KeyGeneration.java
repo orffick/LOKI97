@@ -1,62 +1,60 @@
 package com.LOKI97LowLevel;
 
-
-import com.company.Convertation;
-
 public class KeyGeneration implements Calculatable {
 
-    private int NUM_SUBKEYS = 48;
-    private long DELTA = 0x9E3779B97F4A7C15L;
+    private final int NUM_SUBKEYS = 48;
+    private final long DELTA = 0x9E3779B97F4A7C15L;
 
     public Object makeKey (byte[] k) {
 
-        long[] SK = new long[NUM_SUBKEYS];	// array of subkeys
+        long[] SK = new long[NUM_SUBKEYS];
+        long deltan = DELTA;
 
-        long deltan = DELTA;			// multiples of delta
+        int i = 0;
+        long k4, k3, k2, k1;    // составляющие ключа 256-битного ключа => KEY == [k4, k3, k2, k1]
+        long f_out;
 
-        int i = 0;				// index into key input
-        long k4, k3, k2, k1;			// key schedule 128-bit entities
-        long f_out;				// fn f output value for debug
 
-        // pack key into 128-bit entities: k4, k3, k2, k1
         k4 = (k[i++] & 0xFFL) << 56 | (k[i++] & 0xFFL) << 48 |
-                (k[i++] & 0xFFL) << 40 | (k[i++] & 0xFFL) << 32 |
-                (k[i++] & 0xFFL) << 24 | (k[i++] & 0xFFL) << 16 |
-                (k[i++] & 0xFFL) <<  8 | (k[i++] & 0xFFL);
-        k3 = (k[i++] & 0xFFL) << 56 | (k[i++] & 0xFFL) << 48 |
-                (k[i++] & 0xFFL) << 40 | (k[i++] & 0xFFL) << 32 |
-                (k[i++] & 0xFFL) << 24 | (k[i++] & 0xFFL) << 16 |
-                (k[i++] & 0xFFL) <<  8 | (k[i++] & 0xFFL);
+             (k[i++] & 0xFFL) << 40 | (k[i++] & 0xFFL) << 32 |
+             (k[i++] & 0xFFL) << 24 | (k[i++] & 0xFFL) << 16 |
+             (k[i++] & 0xFFL) <<  8 | (k[i++] & 0xFFL);
 
-        if (k.length == 16) {   // 128-bit key - call fn f twice to gen 256 bits
+        k3 = (k[i++] & 0xFFL) << 56 | (k[i++] & 0xFFL) << 48 |
+             (k[i++] & 0xFFL) << 40 | (k[i++] & 0xFFL) << 32 |
+             (k[i++] & 0xFFL) << 24 | (k[i++] & 0xFFL) << 16 |
+             (k[i++] & 0xFFL) <<  8 | (k[i++] & 0xFFL);
+
+        if (k.length == 16) {   // если ключ 128-бит
             k2 = f(k3, k4);
             k1 = f(k4, k3);
-        } else {                // 192 or 256-bit key - pack k2 from key data
+        }
+        else {
             k2 = (k[i++] & 0xFFL) << 56 | (k[i++] & 0xFFL) << 48 |
-                    (k[i++] & 0xFFL) << 40 | (k[i++] & 0xFFL) << 32 |
-                    (k[i++] & 0xFFL) << 24 | (k[i++] & 0xFFL) << 16 |
-                    (k[i++] & 0xFFL) <<  8 | (k[i++] & 0xFFL);
-            if (k.length == 24) // 192-bit key - call fn f once to gen 256 bits
+                 (k[i++] & 0xFFL) << 40 | (k[i++] & 0xFFL) << 32 |
+                 (k[i++] & 0xFFL) << 24 | (k[i++] & 0xFFL) << 16 |
+                 (k[i++] & 0xFFL) <<  8 | (k[i++] & 0xFFL);
+
+            if (k.length == 24) // если ключ 192-бит
                 k1 = f(k4, k3);
-            else                // 256-bit key - pack k1 from key data
+            else                // стандартно ключ 256-бит
                 k1 = (k[i++] & 0xFFL) << 56 | (k[i++] & 0xFFL) << 48 |
-                        (k[i++] & 0xFFL) << 40 | (k[i++] & 0xFFL) << 32 |
-                        (k[i++] & 0xFFL) << 24 | (k[i++] & 0xFFL) << 16 |
-                        (k[i++] & 0xFFL) <<  8 | (k[i++] & 0xFFL);
+                     (k[i++] & 0xFFL) << 40 | (k[i++] & 0xFFL) << 32 |
+                     (k[i++] & 0xFFL) << 24 | (k[i++] & 0xFFL) << 16 |
+                     (k[i++] & 0xFFL) <<  8 | (k[i] & 0xFFL);
         }
 
-        // iterate over all LOKI97 rounds to generate the required subkeys
+        // генерируем промежуточные ключи
         for (i = 0; i < NUM_SUBKEYS; i++) {
             f_out = f(k1 + k3 + deltan, k2);
-            SK[i] = k4 ^ f_out;		// compute next subkey value using fn f
-            k4 = k3;			// exchange the other words around
+            SK[i] = k4 ^ f_out;
+            k4 = k3;
             k3 = k2;
             k2 = k1;
             k1 = SK[i];
-            deltan += DELTA;		// next multiple of delta
+            deltan += DELTA;
         }
 
         return SK;
     }
-
 }

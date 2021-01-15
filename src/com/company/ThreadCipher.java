@@ -8,9 +8,9 @@ import javax.swing.*;
 
 public class ThreadCipher extends Thread{
 
-    private JProgressBar jProgressBar;
-    private JTable jtable;
-    private Configuration configuration;
+    private final JProgressBar jProgressBar;
+    private final JTable jtable;
+    private final Configuration configuration;
 
     public ThreadCipher(String threadName, Configuration configuration, JProgressBar progressBar, JTable table){
         super(threadName);
@@ -44,7 +44,7 @@ public class ThreadCipher extends Thread{
                     throw new Exception("Failed to " + configuration.getCipher());
             }
 
-            FileWorker.write(getName(), data);
+            FileWorker.write(getName(), data); // перезапишем
         }
         catch (Exception exp) {
             System.out.println("Exeption:\n" + exp.getMessage());
