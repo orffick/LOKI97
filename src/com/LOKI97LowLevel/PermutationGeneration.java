@@ -1,8 +1,8 @@
 package com.LOKI97LowLevel;
 
 public class PermutationGeneration {
-    private static int PERMUTATION_SIZE = 0x100;
-    private static long[] P = new long[PERMUTATION_SIZE];
+    private static final int PERMUTATION_SIZE = 0x100;
+    private static final long[] P = new long[PERMUTATION_SIZE];
 
     private static void generation(){
         long pval;
@@ -16,10 +16,7 @@ public class PermutationGeneration {
         }
     }
 
-    public static final long[] getPermutation(){ return P;}
+    public static long[] getPermutation(){ return P;}
 
-    public static void init(){
-        generation();
-    }
-
+    public static void init(){ generation();}
 }

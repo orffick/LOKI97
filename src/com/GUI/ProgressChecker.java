@@ -20,7 +20,6 @@ public class ProgressChecker
 
     public void setSize(int size){
         progressBar.setMaximum(size);
-
     }
 
     private void update(){

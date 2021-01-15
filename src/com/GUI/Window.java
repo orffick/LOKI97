@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class Window extends JFrame {
 
-    private JPanel mainPanel; // прикол свинга
+    private JPanel mainPanel;
     private JMenuBar menuBar;
 
     private JTable table;

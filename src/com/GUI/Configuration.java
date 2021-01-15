@@ -1,10 +1,8 @@
 package com.GUI;
 
-import com.company.Convertation;
 import com.company.FileWorker;
 
 import java.io.*;
-import java.util.Arrays;
 
 public class Configuration
 {
