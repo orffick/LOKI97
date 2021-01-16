@@ -32,6 +32,11 @@ public class Window extends JFrame {
         JMenuItem fileInput = new JMenuItem("Input");
         file.add(fileInput);
         fileInput.addActionListener(new InputActionListener());
+        JSeparator separator = new JSeparator();
+        file.add(separator);
+        JMenuItem fileExit = new JMenuItem("Exit");
+        fileExit.addActionListener(new ExitActionListener());
+        file.add(fileExit);
         menuBar.add(file);
 
         //Configuration
@@ -64,12 +69,12 @@ public class Window extends JFrame {
             if (data == null)
                 return;
 
-             for(String filePath : data.keySet()){
+            for(String filePath : data.keySet()){
 
-                    JProgressBar jp = (JProgressBar) data.get(filePath)[2];
-                    jp.setValue(0);
-                    new ThreadCipher(filePath, configuration, jp, table); // запускаем новый поток, в котором будет шифроваться файл
-                }
+                JProgressBar jp = (JProgressBar) data.get(filePath)[2];
+                jp.setValue(0);
+                new ThreadCipher(filePath, configuration, jp, table); // запускаем новый поток, в котором будет шифроваться файл
+            }
         }
     }
 
@@ -103,6 +108,13 @@ public class Window extends JFrame {
             }
 
             updateTable();
+        }
+    }
+
+    public class ExitActionListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+
+            System.exit(0);
         }
     }
 

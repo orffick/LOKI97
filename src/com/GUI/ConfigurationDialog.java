@@ -83,7 +83,6 @@ public class ConfigurationDialog extends JDialog {
 
         //==========================================================================================//
 
-
         pack();
         setVisible(true);
     }
@@ -170,6 +169,9 @@ public class ConfigurationDialog extends JDialog {
         configuration.setIV(iv);
         configuration.setCipher(getCipher());
         configuration.setModName(getModeName());
+
+        FileWorker.write(System.getProperty("user.dir") + "/resources/default/" + "key", key);
+        FileWorker.write(System.getProperty("user.dir") + "/resources/default/" + "iv", iv);
 
         dispose();
     }
