@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-
 public class Window extends JFrame {
 
     private JPanel mainPanel;
@@ -96,7 +95,6 @@ public class Window extends JFrame {
             catch (IOException ioException) {
                 ioException.printStackTrace();
             }
-
 
             data = new HashMap<>();
 
