@@ -1,17 +1,10 @@
 package com.GUI;
 
-import com.LOKI97TopLevel.Modes.CBCMode;
-import com.LOKI97TopLevel.Modes.CFBMode;
-import com.LOKI97TopLevel.Modes.ECBMode;
-import com.LOKI97TopLevel.Modes.OFBMode;
 import com.company.FileWorker;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.font.TextLayout;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 
 public class ConfigurationDialog extends JDialog {
 
